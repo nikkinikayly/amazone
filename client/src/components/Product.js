@@ -36,7 +36,7 @@ class Product extends React.Component {
   }
 
   submit = (product) => {
-    axios.put(`/api/departments/${this.props.match.params.department_id}/products/${this.props.match.params.id}`)
+    axios.put(`/api/departments/${product.department_id}/products/${product.id}`, product)
     .then(res => {
       this.setState({ product: res.data, edit: false })
     })

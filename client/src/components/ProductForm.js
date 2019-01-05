@@ -8,7 +8,6 @@ class ProductForm extends Component {
   componentDidMount() {
     if(this.props.id) {
       this.setState({...this.props})
-      debugger
     }
   }
 

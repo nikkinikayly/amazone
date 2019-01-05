@@ -58,10 +58,10 @@ class Products extends React.Component {
       }
 
       deleteProduct = (id) => {
-        axios.delete(`/api/departments/${this.props.match.params.department_id}/products/${this.props.match.params.id}`)
+        axios.delete(`/api/departments/${this.props.match.params.department_id}/products/${id}`)
         .then ( res => {
             const { products } = this.state
-            this.setState({ products: products.filter( t => t.id )})
+            this.setState({ products: products.filter( t => t.id===!id )})
         } )
     }
     
