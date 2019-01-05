@@ -8,7 +8,7 @@ class Reviews extends React.Component {
     state = { reviews: [], showForm: false, edit: false }
 
     componentDidMount() {
-        axios.get(`/api/departments/${this.props.match.params.department_id}/products/${this.props.match.params.product_id}`)
+        axios.get(`/api/departments/${this.props.match.params.department_id}/products/${this.props.match.params.product_id}/reviews`)
         .then(res => {
             this.setState({ reviews: res.data })
         })
@@ -29,23 +29,23 @@ class Reviews extends React.Component {
     }
 
     submit = (review) => {
-        axios.post(`/api/departments/${this.props.match.params.department_id}/products/${this.props.match.params.product_id}/reviews/`, {review})
+        axios.post(`/api/departments/${this.props.match.params.department_id}/products/${this.props.match.params.product_id}/reviews`, {review})
         .then( res => {
             this.setState({reviews: [res.data, ...this.state.reviews], showForm: false})
         })
     }
 
     renderReviews = () => {
-        return this.state.reviews.map( p => {
+        return this.state.reviews.map(p => {
             return (
-                <div {...this.props} >
-                    <Segment key={p.id} style={{textAlign: 'left'}}>
+                <div key={p.id}>
+                    <Segment style={{textAlign: 'left'}}>
                         <Header as="h2">{p.subject}</Header>
                         <Header as="h3">Stars: {p.stars}</Header>
                         <p>{p.body}</p>
                         <p style={{color: 'grey'}}>{p.date}</p>
                     <Button>
-                        <Link to={`/departments/${this.props.match.params.department_id}/products/${this.props.match.params.product_id}/reviews/${this.props.match.params.id}`}>
+                        <Link to={`/departments/${this.props.match.params.department_id}/products/${this.props.match.params.product_id}/reviews/${p.id}`}>
                         Edit
                         </Link>
                     </Button>
@@ -63,20 +63,22 @@ class Reviews extends React.Component {
         })
     }
 
-    deletePost = (id) => {
-        axios.delete(`/api/departments/${this.props.match.params.department_id}/products/${this.props.match.params.product_id}/reviews/${this.props.match.params.id}`)
+    deleteReview = (id) => {
+        axios.delete(`/api/departments/${this.props.match.params.department_id}/products/${this.props.match.params.product_id}/reviews/${id}`)
         .then ( res => {
             const { reviews } = this.state
-            this.setState({ reviews: reviews.filter( t => t.id )})
+            this.setState({ reviews: reviews.filter( t => t.id !== id)})
         } )
     }
 
 
     render () {
-
+        const { showForm } = this.state
         return (
-            <div>
-
+            <div style={{textAlign:'center'}}>
+            {/* <Header as="h1">{this.props.name}</Header> */}
+            <button onClick={this.toggleForm}>{ showForm ? 'Hide' : 'Add Review' }</button>
+            {showForm ? this.form() : this.renderReviews()}
             </div>
         )
     }

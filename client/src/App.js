@@ -20,7 +20,7 @@ const App = () => (
       <Route exact path='/departments/:department_id/products' component={Products} />
       <Route exact path='/departments/:department_id/products/:id' component={Product} />
       <Route exact path='/departments/:department_id/products/:product_id/reviews' component={Reviews} />
-      <Route exact path='/departments/:department_id/products/:product_id/reviews/:id' compponent={Review} />
+      <Route exact path='/departments/:department_id/products/:product_id/reviews/:id' component={Review} />
       <Route component={NoMatch} />
     </Switch>
   </Fragment>
