@@ -5,6 +5,13 @@ class ProductForm extends Component {
   defaultValues = { name: '', description: '', price: '', stock: ''}
   state = {...this.defaultValues}
 
+  componentDidMount() {
+    if(this.props.id) {
+      this.setState({...this.props})
+      debugger
+    }
+  }
+
   handleChange = (e) => {
     const {name, value} = e.target
     this.setState({ [name]: value})
@@ -23,28 +30,28 @@ class ProductForm extends Component {
         <input
           name="name"
           placeholder="Name"
-          value={this.state.value}
+          value={this.state.name}
           onChange={this.handleChange}
           required
         />
         <input
           name="description"
           placeholder="Description"
-          value={this.state.value}
+          value={this.state.description}
           onChange={this.handleChange}
           required
         />
            <input
           name="price"
           placeholder="Price"
-          value={this.state.value}
+          value={this.state.price}
           onChange={this.handleChange}
           required
         />
            <input
-          name="Stock"
+          name="stock"
           placeholder="Stock"
-          value={this.state.value}
+          value={this.state.stock}
           onChange={this.handleChange}
           required
         />

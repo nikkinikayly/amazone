@@ -2,7 +2,8 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ProductForm from './ProductForm';
-
+import { Button, Icon } from 'semantic-ui-react'
+ 
 class Products extends React.Component {
     state = { products: [], showForm: true }
   
@@ -30,7 +31,16 @@ class Products extends React.Component {
         return this.state.products.map(p => {
           return (
             <div>
-              <Link key={p.id} to={`/departments/${this.props.match.params.department_id}/products`}> {p.name} </Link>
+              <Link key={p.id} to={`/departments/${this.props.match.params.department_id}/products/${p.id}`}> {p.name} </Link>
+
+              <Button
+                       icon
+                       color="blue"
+                       size="small"
+                       onClick={() => this.deleteProduct(p.id)}
+                   >
+                   <Icon name="trash" />
+                   </Button>
             </div>
            )
         })
@@ -46,6 +56,15 @@ class Products extends React.Component {
             console.log(err)
           })
       }
+
+      deleteProduct = (id) => {
+        axios.delete(`/api/departments/${this.props.match.params.department_id}/products/${this.props.match.params.id}`)
+        .then ( res => {
+            const { products } = this.state
+            this.setState({ products: products.filter( t => t.id )})
+        } )
+    }
+    
 
     render () {
         const { showForm } = this.state
