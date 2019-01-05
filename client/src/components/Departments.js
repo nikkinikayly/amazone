@@ -33,12 +33,10 @@ class Departments extends React.Component {
   renderDepartments = () => {
     return this.state.departments.map (b => (
       <Item key={b.id}>
-        <div>
-          <Link to={`/departments/${b.id}`}>
-          </Link>
-        </div>
         <Item.Content>
-          <Item.Header>{b.title}</Item.Header>
+          <Link to={`/departments/${b.id}`}>
+            <Item.Header>{b.title}</Item.Header>
+          </Link>
         </Item.Content>
       </Item>
     ))
