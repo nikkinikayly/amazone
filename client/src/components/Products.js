@@ -5,7 +5,7 @@ import ProductForm from './ProductForm';
 import { Button, Icon, Grid, Card, Header } from 'semantic-ui-react'
  
 class Products extends React.Component {
-    state = { products: [], showForm: false }
+    state = { products: [], showForm: true }
   
     // componentDidMount() {
     //     axios.get(`/api/departments/${this.props.match.params.department_id}/products`)
@@ -27,7 +27,7 @@ class Products extends React.Component {
         return <ProductForm submit={this.submit} />
       }
 
-      listProducts = () => {
+      renderProducts = () => {
         return this.props.products.map(p => {
           return (
             <div style={{margin: '15px'}}>
@@ -37,7 +37,7 @@ class Products extends React.Component {
                    <Card.Content>
                        <Header as="h3">
                            <Link
-                               to={`products/${p.id}`}
+                               to={`/departments/${this.props.id}/products/${p.id}`}
                                >{p.name}</Link>
                        </Header>
                        <p>{p.description}</p>
@@ -64,38 +64,40 @@ class Products extends React.Component {
       }
 
       submit = (product) => { 
-        debugger
         axios.post(`/api/departments/${this.props.id}/products`, {product})
           .then( res => {
             const { products } = this.state
             this.setState({ products: [...products, res.data]})
+            window.location.href=`/departments/${this.props.id}`
           })
           .catch( err => {
             console.log(err)
           })
       }
 
+
       deleteProduct = (id) => {
-        axios.delete(`/api/departments/${this.props.match.params.department_id}/products/${id}`)
+        axios.delete(`/api/departments/${this.props.id}/products/${id}`)
         .then ( res => {
             const { products } = this.state
             this.setState({ products: products.filter( t => t.id===!id )})
+            window.location.href=`/departments/${this.props.id}`
         } )
     }
     
 
     render () {
-        const { showForm } = this.state
-        return (
-            <div style={{margin: '15px'}}>
-              <div style={{margin: '15px'}}>
-                <button onClick={this.toggleForm}>{ showForm ? 'Hide' : 'Add Product' }</button>
-                </div>
-                <div style={{margin: '15px'}}>
-                <Grid columns="four">{showForm ? this.form() : this.listProducts()}</Grid>
-                </div>
-            </div>
-        )
+      return (
+        <div style={{margin: '15px'}}>
+        <Header as="h1" style={{color: 'purple'}}>Add Product</Header>
+        { this.form() }
+        <div>
+        <Grid columns="four">
+        { this.renderProducts() }
+        </Grid>
+        </div>
+        </div>
+    )
     }
 };
 

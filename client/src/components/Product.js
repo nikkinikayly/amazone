@@ -2,6 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import ProductForm from './ProductForm';
 import Reviews from './Reviews';
+import { Header, Segment } from 'semantic-ui-react';
 
 class Product extends React.Component {
   state = { product: {}, edit: false }
@@ -22,14 +23,15 @@ class Product extends React.Component {
   showProduct = () => {
     const { product: { name, description, price, stock } } = this.state
     return (
-      <div>
-        <h1>Product name: {name}</h1>
-        <h3>Description product: {description}</h3>
-        <h3>Price product: {price} Price</h3>
-        <h3>QTY product: {stock}</h3>
+      <div style={{padding:'5px}'}}>
+        <Header as="h2" color="purple">Product name: {name} </Header>
+        <Header as="h3" color="blue">Description product: {description}</Header>
+        <Header as="h4" color="blue">Price product: ${price}</Header>
+        <Header as="h4" color="blue">QTY product: {stock}</Header>
       </div>
     )
   }
+
 
   edit = () => {
     return <ProductForm  {...this.state.product}  submit={this.submit}/>
@@ -42,17 +44,21 @@ class Product extends React.Component {
     })
   }
 
-  render() {
+render() {
     const { edit } = this.state
     return (
-      <div>
-        {edit ? this.edit() : this.showProduct()}
-        <button onClick={this.toggleEdit}>{ edit ? 'Cancel' : 'Edit' }</button>
-        <Reviews {...this.props} />
-      </div>
+        <div style={{textAlign: 'center'}}>
+        <Segment style={{margin: '15px'}}>
+            {edit ? this.edit() : this.showProduct()}
+            <div style={{margin: '15px'}}>
+            <button onClick={this.toggleEdit}>{ edit? 'Cancel' : 'Edit Title'}</button>
+            </div>
+        </Segment>
+        <Segment>
+            <Reviews {...this.props}/>
+        </Segment>
+        </div>
     )
-  }
-
 }
-
-export default Product
+}
+export default Product;
