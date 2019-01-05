@@ -30,10 +30,8 @@ class Products extends React.Component {
       renderProducts = () => {
         return this.props.products.map(p => {
           return (
-            <div style={{margin: '15px'}}>
-               <Grid.Column style={{margin: '15px'}}>
-               <div key={p.id}>
-                   <Card>
+               <Grid.Column key={p.id} style={{margin: '15px'}}>
+                 <Card>
                    <Card.Content>
                        <Header as="h3">
                            <Link
@@ -55,10 +53,8 @@ class Products extends React.Component {
                        <Icon name="trash" />
                    </Button>
                    </Card.Content>
-                   </Card>
-               </div>
+                 </Card>
                </Grid.Column>
-            </div>
            )
         })
       }
