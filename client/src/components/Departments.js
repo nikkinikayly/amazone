@@ -30,29 +30,35 @@ class Departments extends React.Component {
         })
   };
 
+  deleteDepartment = (id) => {
+    axios.delete(`/api/departments/${id}`)
+        .then(res => {
+          const {departments} = this.state;
+          this.setState({departments: departments.filter(t => t.id !== id)})
+        });
+  };
+
   renderDepartments = () => {
     return this.state.departments.map (b => {
       return (
-            <Grid.Column>
-              <div key={b.id}>
-                <Card>
-                  <Card.Content>
-                    <Link to={`/departments/${b.id}`}>
-                      <Header as= 'h3'>{b.title}</Header>
-                    </Link>
-                  </Card.Content>
-                  <Card.Content>
-                    <Button
-                        icon
-                        color="purple"
-                        size="small"
-                        onClick={() => this.deleteDepartment(b.id)}
-                        style={{marginLeft: "16px"}}>
-                        <Icon name="trash" />
-                    </Button>
-                  </Card.Content>
-                </Card>
-              </div>
+            <Grid.Column key={b.id}>
+              <Card>
+                <Card.Content>
+                  <Link to={`/departments/${b.id}`}>
+                    <Header as= 'h3'>{b.title}</Header>
+                  </Link>
+                </Card.Content>
+                <Card.Content>
+                  <Button
+                      icon
+                      color="purple"
+                      size="small"
+                      onClick={() => this.deleteDepartment(b.id)}
+                      style={{marginLeft: "16px"}}>
+                      <Icon name="trash" />
+                  </Button>
+                </Card.Content>
+              </Card>
             </Grid.Column>
           )
       })
