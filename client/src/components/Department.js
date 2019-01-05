@@ -1,100 +1,77 @@
 import React from 'react';
 import axios from 'axios';
 import DepartmentForm from './DepartmentForm';
-import { Header, Button, } from 'semantic-ui-react';
-import { Link, } from 'react-router-dom';
+import { Segment } from 'semantic-ui-react';
+import ProductForm from './ProductForm';
+import { Link } from 'react-router-dom';
+// import Products from './Products';
 
 class Department extends React.Component {
-    state = { department: {}, departments: [], };
-
-    componentDidMount() {
-      const { id, } = this.props.match.params;
-      axios.get(`/api/departments/${id}`)
-        .then( res => this.setState({ department: res.data, }))
-      axios.get(`/api/departments/${id}/departments`)
-        .then( res => this.setState({ departments: res.data, }))
-    }
-  
-    handleDelete = (id) => {
-      const remove = window.confirm("Are you sure you want to delete this department?")
-      if (remove)
-        axios.delete(`/api/departments/${id}`)
-          .then( res => this.props.history.push('/departments'))
-    };
-  
-    renderDepartments = () => {
-      return this.state.departments.map( i => (
-        <Department key={i.id} {...i} remove={this.removeDepartment} update={this.updateDepartment}/>
-      ))
-    };
-  
-    updateDepartment = (id) => {
-      const bId = this.props.match.params.id;
-      axios.put(`/api/departments/${bId}/departments/${id}`)
-        .then( res => {
-          const departments = this.state.departments.map( t => {
-            if (t.id === id)
-              return res.data;
-            return t;
-          });
-          this.setState({ departments });
-        })
-    };
-  
-    removeDepartment = (id) => {
-      const remove = window.confirm("Are you sure you want to delete this department?");
-      const bId = this.props.match.params.id;
-      if (remove)
-        axios.delete(`/api/department/${bId}/departments/${id}`)
-          .then( res => {
-            const departments = this.state.departments.filter( i => {
-              if (i.id !== id) 
-                return i;  
-              return null;
-            });
-            this.setState({ departments, });
-          })
-    };
-  
-    addDepartment = (title) => {
-      axios.post(`/api/departments/${this.props.match.params.id}/departments`, { title })
-        .then(res => {
-          this.setState({ departments: [res.data, ...this.state.departments], showForm: false})
-        })
-    };
-
-    departmentForm = () => {
-      return <DepartmentForm addDepartment={this.addDepartment} />
-    };
-  
-    toggleForm = () => {
-      this.setState(state => {
-        return { showForm: !state.showForm }
+  state = { department: {}, products: [], edit: false, showForm: false, }
+    
+  componentDidMount() {
+      axios.get(`/api/departments/${this.props.match.params.id}`)
+      .then(res => {
+          this.setState({ department: res.data })
+      });
+      axios.get(`/api/departments/${this.props.match.params.id}/products`)
+      .then(res => {
+          this.setState({ products: res.data })
       })
-    };
+  }
 
-    render () {
-      const { department: { id, title, }, showForm } = this.state;
+  toggleEdit = () => {
+      this.setState(state => {
+          return { edit: !this.state.edit }
+      })
+  }
+
+  showDepartment = () => {
+      const { department: { title } } = this.state
       return (
-        <div>
-          <Header >{title}</Header>
-            <div>
-              <Link to={`/departments/${id}/edit`}>
-                <Button icon='edit'/>
-              </Link>
-              <Button 
-                onClick={() => this.handleDelete(id)}
-              />
-            </div>
-          <br />
-          <div>
-            <Button onClick={this.toggleForm.params}>{ showForm ? 'hide' :'Add department'}</Button>
-            {showForm ? this.departmentForm() : this.renderDepartments()}
+          <div style={{padding: '5px'}}>
+              <h1>{title}</h1>
           </div>
-        </div>
       )
-    }
-  
+  }
+
+  edit = () => {
+      return <DepartmentForm {...this.state.department} submit={this.submit} />
+  }
+
+  submit = (department) => {
+      axios.put(`/api/departments/${this.props.match.params.id}`, { department })
+      .then(res => {
+          this.setState({ department: res.data, edit: false})
+      })
+  }
+
+  toggleForm = () => {
+      this.setState( state => {
+          return { showForm: !state.showForm}
+      })
+  }
+
+  form = () => {
+      return <ProductForm submit={this.submit} />
+  }
+
+
+  render() {
+      const { edit } = this.state
+      return (
+          <div style={{textAlign: 'center'}}>
+          <Segment style={{margin: '15px'}}>
+              {edit ? this.edit() : this.showDepartment()}
+              <button onClick={this.toggleEdit}>{ edit? 'Cancel' : 'Edit Title'}</button>
+          </Segment>
+          <Segment>
+              <Link to={`/departments/${this.props.match.params.id}/products/`}>View Products</Link>
+          </Segment>
+          </div>
+      )
+  }
+
   }
 
 
