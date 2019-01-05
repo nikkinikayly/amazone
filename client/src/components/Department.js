@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import DepartmentForm from './DepartmentForm';
-import Departments from './Departments';
 import { Header, Button, } from 'semantic-ui-react';
 import { Link, } from 'react-router-dom';
 
@@ -21,13 +20,13 @@ class Department extends React.Component {
       if (remove)
         axios.delete(`/api/departments/${id}`)
           .then( res => this.props.history.push('/departments'))
-    }
+    };
   
     renderDepartments = () => {
       return this.state.departments.map( i => (
         <Department key={i.id} {...i} remove={this.removeDepartment} update={this.updateDepartment}/>
       ))
-    }
+    };
   
     updateDepartment = (id) => {
       const bId = this.props.match.params.id;
@@ -40,7 +39,7 @@ class Department extends React.Component {
           });
           this.setState({ departments });
         })
-    }
+    };
   
     removeDepartment = (id) => {
       const remove = window.confirm("Are you sure you want to delete this department?");
@@ -55,27 +54,25 @@ class Department extends React.Component {
             });
             this.setState({ departments, });
           })
-    }
+    };
   
-    addDepartment = (department) => {
-      axios.post(`/api/departments/${this.props.match.params.id}/departments`, { department })
+    addDepartment = (title) => {
+      axios.post(`/api/departments/${this.props.match.params.id}/departments`, { title })
         .then(res => {
           this.setState({ departments: [res.data, ...this.state.departments], showForm: false})
         })
-    }
-  
-  
-    DepartmentForm = () => {
-      return <DepartmentForm add={this.addList} />
-    }
+    };
+
+    departmentForm = () => {
+      return <DepartmentForm addDepartment={this.addDepartment} />
+    };
   
     toggleForm = () => {
       this.setState(state => {
         return { showForm: !state.showForm }
-        })
-    }
-  
-  
+      })
+    };
+
     render () {
       const { department: { id, title, }, showForm } = this.state;
       return (
@@ -83,10 +80,7 @@ class Department extends React.Component {
           <Header >{title}</Header>
             <div>
               <Link to={`/departments/${id}/edit`}>
-                <Button 
-                 
-                  icon='edit' 
-                />
+                <Button icon='edit'/>
               </Link>
               <Button 
                 onClick={() => this.handleDelete(id)}
@@ -94,7 +88,7 @@ class Department extends React.Component {
             </div>
           <br />
           <div>
-            <Button onClick={this.toggleForm.params}  >{ showForm ? 'hide' :'Add department'}</Button>
+            <Button onClick={this.toggleForm.params}>{ showForm ? 'hide' :'Add department'}</Button>
             {showForm ? this.departmentForm() : this.renderDepartments()}
           </div>
         </div>

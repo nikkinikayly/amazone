@@ -13,35 +13,30 @@ class DepartmentForm extends React.Component {
       e.preventDefault();
       if (this.props.id) {
         this.props.edit({id: this.props.id, ...this.state});
-        this.props.toggleEdit()
       } else {
-        this.props.addDepartment(this.state);
+        this.props.addDepartment(this.state.title);
       }
       this.setState({ title: "" });
-    }
-   
+    };
 
   handleChange = (e) => {
     this.setState({ [e.target.name]: e.target.value, });
-  }
+  };
 
   render() {
     return(
       <Form onSubmit={this.handleSubmit}>
-        
-          <Form.Input 
+          <Form.Input
             placeholder="Title"
             label="Title"
             name="title"
             onChange={this.handleChange}
             value={this.state.title}
           />
-          
-          <Form.Button>Submit For New Department</Form.Button>
-        
+          <Form.Button>Create New Department</Form.Button>
       </Form>
     )
   }
-};
+}
 
 export default DepartmentForm;

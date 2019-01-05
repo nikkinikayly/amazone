@@ -1,19 +1,36 @@
 import React from 'react';
-import Department from './Department';
-import DepartmentForm from './DepartmentForm';
 import { Link, } from 'react-router-dom';
-import {  Button, Item, Icon  } from 'semantic-ui-react';
+import {  Button, Item, Icon, Divider  } from 'semantic-ui-react';
 import axios from 'axios';
+import DepartmentForm from './DepartmentForm';
+
 
 class Departments extends React.Component {
-    state = { departments: [], };
+    state = { departments: [], showForm: false };
 
   componentDidMount() {
     axios.get('/api/departments')
       .then( res => this.setState({ departments: res.data, }));
   }
 
-  renderBoards = () => {
+  toggleForm = () => {
+    this.setState( state => {
+      return { showForm: !state.showForm}
+    })
+  };
+
+  form = () => {
+    return <DepartmentForm addDepartment={this.addDepartment} />
+  };
+
+  addDepartment = (title) => {
+    axios.post(`/api/departments`, { title })
+        .then(res => {
+          this.setState({ departments: [res.data, ...this.state.departments], showForm: false})
+        })
+  };
+
+  renderDepartments = () => {
     return this.state.departments.map (b => (
       <Item key={b.id}>
         <div>
@@ -25,21 +42,20 @@ class Departments extends React.Component {
         </Item.Content>
       </Item>
     ))
-  }
+  };
 
   render() {
+    const {showForm} = this.state;
     return (
       <div>
-        <h1>departments</h1>
-        <br />
-        <Link to="/departments/new">
-          <Button >
-            <Icon title='add' />
+        <h1>Departments</h1>
+        <Divider/>
+          <Button onClick={this.toggleForm} >
+            <Icon name={showForm ? 'minus' : 'add'} />
             Add Department
           </Button>
-        </Link>
-        <br />
-        
+          { showForm ? this.form() : ''}
+        <Divider/>
         <Item>
           { this.renderDepartments() }
         </Item>
@@ -48,7 +64,6 @@ class Departments extends React.Component {
   }
 
 }
-
 
 
 export default Departments;
