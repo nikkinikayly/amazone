@@ -2,7 +2,8 @@ import React from 'react';
 import ReviewForm from './ReviewForm';
 import axios from 'axios';
 import {Header, Segment, Button, Icon } from 'semantic-ui-react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import StarRatings from 'react-star-ratings';
 
 class Reviews extends React.Component {
     state = { reviews: [], showForm: false, edit: false }
@@ -38,10 +39,17 @@ class Reviews extends React.Component {
     renderReviews = () => {
         return this.state.reviews.map(p => {
             return (
-                <div key={p.id}>
+                <div key={p.id} style={{margin: '15px'}}>
                     <Segment style={{textAlign: 'left'}}>
                         <Header as="h2">{p.subject}</Header>
-                        <Header as="h3">Stars: {p.stars}</Header>
+                            <StarRatings
+                                rating={p.stars}
+                                // changeRating={this.changeRating}
+                                starRatedColor="purple"
+                                numberOfStars={5}
+                                name='rating'
+                                starDimension="20px"
+                            />
                         <p>{p.body}</p>
                         <p style={{color: 'grey'}}>{p.date}</p>
                     <Button>
@@ -75,10 +83,12 @@ class Reviews extends React.Component {
     render () {
         const { showForm } = this.state
         return (
-            <div style={{textAlign:'center'}}>
-            <Header></Header>
+            <div style={{textAlign:'center', margin: '15px'}}>
+            <Header as="h1">Reviews</Header>
             {/* <Header as="h1">{this.props.name}</Header> */}
+            <div style={{margin: '10px'}}>
             <button onClick={this.toggleForm}>{ showForm ? 'Hide' : 'Add Review' }</button>
+            </div>
             {showForm ? this.form() : this.renderReviews()}
             </div>
         )

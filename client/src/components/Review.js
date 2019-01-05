@@ -71,7 +71,7 @@ class Review extends React.Component {
                 <button><Link to={`/departments/${this.props.match.params.department_id}/products/${this.props.match.params.product_id}/reviews`}>Back to Reviews</Link></button>
                 </Segment>
                 <Segment>
-                    <h1>Edit Form Here</h1>
+                    <h1>Edit Review Here</h1>
                 <ReviewForm key={this.state.review.id} {...this.state.review} submit={this.submit}/>
                 </Segment>
             </div>

@@ -52,7 +52,7 @@ render() {
         <Segment style={{margin: '15px'}}>
             {edit ? this.edit() : this.showProduct()}
             <div style={{margin: '15px'}}>
-            <button onClick={this.toggleEdit}>{ edit? 'Cancel' : 'Edit Title'}</button>
+            <button onClick={this.toggleEdit}>{ edit? 'Cancel' : 'Edit Product'}</button>
             </div>
         </Segment>
         <Segment>

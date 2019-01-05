@@ -39,8 +39,8 @@ class Products extends React.Component {
                                >{p.name}</Link>
                        </Header>
                        <p>{p.description}</p>
-                       <p>{p.price}</p>
-                       <p>{p.stock}</p>
+                       <p>${p.price}</p>
+                       <p>Inventory: {p.stock}</p>
                    </Card.Content>
                    <Card.Content>
                    <Button

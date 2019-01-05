@@ -62,7 +62,7 @@ class Department extends React.Component {
           <div style={{textAlign: 'center'}}>
           <Segment style={{margin: '15px'}}>
               {edit ? this.edit() : this.showDepartment()}
-              <button onClick={this.toggleEdit}>{ edit? 'Cancel' : 'Edit Title'}</button>
+              <button onClick={this.toggleEdit}>{ edit? 'Cancel' : 'Edit Department'}</button>
           </Segment>
           <Segment>
               {/* <Link to={`/departments/${this.props.match.params.id}/products/`}>View Products</Link> */}

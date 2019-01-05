@@ -30,7 +30,7 @@ class DepartmentForm extends React.Component {
             onChange={this.handleChange}
             value={this.state.title}
           />
-          <Form.Button>Create New Department</Form.Button>
+          <Form.Button>Submit</Form.Button>
       </Form>
     )
   }
