@@ -1,9 +1,9 @@
 import React from 'react';
-// import { Form, Button, Select } from 'semantic-ui-react';
+import StarRatings from 'react-star-ratings';
 
 class ReviewForm extends React.Component {
-    defaultValues = { subject: '', body: '', stars: '', date: '' };
-    state = { subject: '', body: '', stars: '', date: '' };
+    defaultValues = { subject: '', body: '', stars: 0, date: '' };
+    state = { subject: '', body: '', stars: 0, date: '' };
 
     componentDidMount() {
         if (this.props.id) {
@@ -13,14 +13,18 @@ class ReviewForm extends React.Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const review = {...this.state}
-        this.props.submit(review)
-        this.setState({...this.defaultValues})
-    }
+        const review = {...this.state};
+        this.props.submit(review);
+        this.setState({...this.state})
+    };
+
+    changeRating = ( rating ) => {
+      this.setState({stars: rating})
+    };
 
     handleChange = (e) => {
         this.setState({[e.target.name]: e.target.value, })
-    }
+    };
 
     render () {
         return (
@@ -38,12 +42,14 @@ class ReviewForm extends React.Component {
                 value={this.state.body}
                 onChange={this.handleChange}
                 />
-                <input 
-                name="stars"
-                placeholder="Stars"
-                value={this.state.stars}
-                onChange={this.handleChange}
-                />
+              <StarRatings
+                  rating={this.state.stars}
+                  changeRating={this.changeRating}
+                  starRatedColor="purple"
+                  numberOfStars={5}
+                  name='start'
+                  starDimension="20px"
+              />
                 <input 
                 name="date"
                 placeholder="Date"
@@ -54,6 +60,6 @@ class ReviewForm extends React.Component {
             </form>
         )
     }
-};
+}
 
 export default ReviewForm;

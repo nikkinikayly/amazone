@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import ProductForm from './ProductForm';
-import { Segment, Button, Icon, Grid, Card, Header } from 'semantic-ui-react'
+import { Button, Icon, Grid, Card, Header } from 'semantic-ui-react'
  
 class Products extends React.Component {
     state = { products: [], showForm: false }

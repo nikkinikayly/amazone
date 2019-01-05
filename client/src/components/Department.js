@@ -3,7 +3,6 @@ import axios from 'axios';
 import DepartmentForm from './DepartmentForm';
 import { Segment } from 'semantic-ui-react';
 import ProductForm from './ProductForm';
-import { Link } from 'react-router-dom';
 import Products from './Products';
 
 class Department extends React.Component {
