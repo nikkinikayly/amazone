@@ -4,7 +4,7 @@ import DepartmentForm from './DepartmentForm';
 import { Segment } from 'semantic-ui-react';
 import ProductForm from './ProductForm';
 import { Link } from 'react-router-dom';
-// import Products from './Products';
+import Products from './Products';
 
 class Department extends React.Component {
   state = { department: {}, products: [], edit: false, showForm: false, }
@@ -66,7 +66,8 @@ class Department extends React.Component {
               <button onClick={this.toggleEdit}>{ edit? 'Cancel' : 'Edit Title'}</button>
           </Segment>
           <Segment>
-              <Link to={`/departments/${this.props.match.params.id}/products/`}>View Products</Link>
+              {/* <Link to={`/departments/${this.props.match.params.id}/products/`}>View Products</Link> */}
+              <Products products={this.state.products} id={this.state.department.id}/>
           </Segment>
           </div>
       )
