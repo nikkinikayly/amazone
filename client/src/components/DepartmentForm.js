@@ -11,12 +11,9 @@ class DepartmentForm extends React.Component {
    
     handleSubmit = (e) => {
       e.preventDefault();
-      if (this.props.id) {
-        this.props.edit({id: this.props.id, ...this.state});
-      } else {
-        this.props.addDepartment(this.state.title);
-      }
-      this.setState({ title: "" });
+      const department = {...this.state};
+      this.props.submit(department);
+      this.setState({...this.state})
     };
 
   handleChange = (e) => {

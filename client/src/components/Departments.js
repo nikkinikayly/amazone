@@ -20,11 +20,11 @@ class Departments extends React.Component {
   };
 
   form = () => {
-    return <DepartmentForm addDepartment={this.addDepartment} />
+    return <DepartmentForm submit={this.submit} />
   };
 
-  addDepartment = (title) => {
-    axios.post(`/api/departments`, { title })
+  submit = (department) => {
+    axios.post(`/api/departments`, { department })
         .then(res => {
           this.setState({ departments: [res.data, ...this.state.departments], showForm: false})
         })

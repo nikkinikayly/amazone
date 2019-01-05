@@ -51,7 +51,7 @@ class Reviews extends React.Component {
                     </Button>
                     <Button
                         icon 
-                        color="red"
+                        color="purple"
                         size="small"
                         onClick={() => this.deleteReview(p.id)}
                     >
@@ -76,6 +76,7 @@ class Reviews extends React.Component {
         const { showForm } = this.state
         return (
             <div style={{textAlign:'center'}}>
+            <Header></Header>
             {/* <Header as="h1">{this.props.name}</Header> */}
             <button onClick={this.toggleForm}>{ showForm ? 'Hide' : 'Add Review' }</button>
             {showForm ? this.form() : this.renderReviews()}

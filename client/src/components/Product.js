@@ -3,6 +3,7 @@ import axios from 'axios'
 import ProductForm from './ProductForm';
 import Reviews from './Reviews';
 import { Header, Segment } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 
 class Product extends React.Component {
   state = { product: {}, edit: false }
@@ -55,7 +56,7 @@ render() {
             </div>
         </Segment>
         <Segment>
-            <Reviews {...this.props}/>
+            <Link to={`/departments/${this.props.match.params.department_id}/products/${this.props.match.params.id}/reviews/`}>View Reviews</Link>
         </Segment>
         </div>
     )
