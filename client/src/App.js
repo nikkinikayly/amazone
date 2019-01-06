@@ -8,7 +8,7 @@ import Product from './components/Product';
 import Reviews from './components/Reviews';
 import Review from './components/Review';
 import NoMatch from './components/NoMatch'
-
+// main page 
 
 const App = () => (
   <Fragment>
